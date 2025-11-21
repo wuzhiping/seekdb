@@ -1,0 +1,22 @@
+services:
+  seekdb:
+    image: oceanbase/seekdb
+    restart: always
+    environment:
+      ROOT_PASSWORD: your_password
+    ports:
+      - "2881:2881"
+      - "2886:2886"
+    volumes:
+      - ./seekdb:/var/lib/oceanbase
+      #- seekdb.cnf:/etc/oceanbase/seekdb.cnf
+
+  sandbox:
+    image: ghcr.io/agent-infra/sandbox:latest
+    ports:
+      - "2880:8080"
+    security_opt:
+      - seccomp=unconfined
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
